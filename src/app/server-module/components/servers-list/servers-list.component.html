@@ -1,0 +1,106 @@
+<main class="server-container">
+    <section class="servers-filter">
+        <div class="filter-button-container">
+            <button id="fab-filter-btn" mat-mini-fab aria-label="Filter Server List" matTooltip="Filter List"
+                (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </div>
+    </section>
+    <section class="servers-list" cdkScrollable>
+        <ng-container *ngIf="serverList.length; else loading">
+            <cdk-virtual-scroll-viewport itemSize="18 * 7" class="server-list-viewport" fxLayout.xs="column" fxLayout="row wrap" fxLayoutGap="10px" ngClass.gt-xs="ml-10">
+                <div *cdkVirtualFor="let sList of serverList">
+                    <mat-card fxFlex.sm="0 1 calc(50%-10px)" fxFlex.md="0 1 calc(33%-10px)" fxFlex.gt-md="0 1 calc(25%-10px)">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <p class="s-txt">
+                                    <mat-icon>sd_storage</mat-icon>&nbsp;
+                                    <span [matTooltip]="sList.model">{{sList.model}}</span>
+                                </p>
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                <p class="s-txt">
+                                    <mat-icon> location_on</mat-icon>&nbsp;
+                                    <span [matTooltip]="sList.location">{{sList.location}}</span>
+                                </p>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <section style="text-align: center;">
+                                <span>{{sList.price | currencyConverter}}</span>
+                            </section>
+                            <h5 style="margin: .5em 0em .5em 0em; font-weight: 800;">Server Details</h5>
+                            <section>
+                                <details style="font-size: 13px;" open>
+                                    <summary style="font-weight: 500;" class="f-lable">Ram</summary>
+                                    <ul style="margin: 2px;">
+                                        <li class="f-field">
+                                            <span>Capacity</span>&nbsp;:&nbsp;{{sList.ram.memory}}{{sList.ram.unit}}
+                                        </li>
+                                        <li class="f-field"><span>Type</span>&nbsp;:&nbsp;{{sList.ram.type}}</li>
+                                    </ul>
+                                </details>
+                            </section>
+                            <section>
+                                <details style="font-size: 13px;" open>
+                                    <summary style="font-weight: 500;">HDD</summary>
+                                    <ul style="margin: 2px;">
+                                        <li class="f-field">
+                                            <span>Capacity</span>&nbsp;:&nbsp;{{sList.hdd.memory}}{{sList.hdd.unit}}
+                                        </li>
+                                        <li class="f-field"><span>Type</span>&nbsp;:&nbsp;{{sList.hdd.type}}</li>
+                                        <li class="f-field"><span>Count</span>&nbsp;:&nbsp;{{sList.hdd.count}}</li>
+                                    </ul>
+                                </details>
+                            </section>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <ng-template #loading>
+            <ng-container *ngIf="initLoad || serverList.length; else empty">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly;">
+                    <mat-card class="card-skeleton" *ngFor="let item of dummyLoader">
+                    </mat-card>
+                </div>
+            </ng-container>
+            <ng-template #empty>
+                <p style="position: absolute; left: 8%;">
+                    <img width="100px" src="../../../../assets/icons/error-404.png"><span> No Records Found. Try
+                        changing filter criteria</span>
+                </p>
+            </ng-template>
+        </ng-template>
+    </section>
+</main>
+
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen">
+    <div class="overlay-filter">
+        <div style="display: flex; justify-content: space-between;">
+            <h5>Filter</h5>
+            <mat-icon style="cursor: pointer;" (click)="isOpen = !isOpen">close</mat-icon>
+        </div>
+        <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+            <ngx-slider [options]="options" formControlName="range"></ngx-slider>
+            <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Ram</mat-label>
+                <mat-select formControlName="ram" multiple>
+                    <mat-option *ngFor="let ram of ramList" [value]="ram.value">{{ram.name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-label>Hard Disk</mat-label>
+                <mat-select formControlName="hdd">
+                    <mat-option *ngFor="let hardDisk of hddList" [value]="hardDisk.value">{{hardDisk.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <br>
+            <div align="end">
+                <button mat-raised-button color="primary">Submit</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

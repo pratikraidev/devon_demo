@@ -1,0 +1,74 @@
+@use "~@angular/material" as mat;
+@import "@angular/cdk/overlay-prebuilt.css";
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.server-container {
+  .mat-card {
+    box-sizing: border-box;
+    box-shadow: 3px 2px 7px 4px #e0e0e0;
+    margin: 1em 1em 0px 0px;
+    width: 23vw;
+    min-width: 340px;
+    height: 38vh;
+    min-height: 300px;
+    &:hover {
+      @include mat.elevation(12);
+    }
+    .mat-card-title {
+      font-size: 14px;
+    }
+    .mat-card-subtitle {
+      font-size: 12px;
+    }
+    .mat-card-header-text {
+      margin: 0;
+    }
+  }
+
+  .mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  .cdk-virtual-scroll-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-bottom: 10px;
+  }
+}
+
+.overlay-filter {
+    width: 30vw;
+    height: 40vh;
+    min-width: 400px;
+    z-index: 1000;
+    background: #ffffff;
+    box-shadow: 3px 1px 8px 4px #aeaeae;
+    padding: 1em;
+}
+
+.mat-select-panel {
+    z-index: 10000;
+    background: #fff;
+    box-shadow: 3px 4px 8px 2px #ccc;
+}
+
+.card-skeleton {
+  height: 35vh;
+  width: 20vw;
+  animation-name: card-animation;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}

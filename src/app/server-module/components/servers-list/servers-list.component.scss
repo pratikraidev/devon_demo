@@ -1,0 +1,47 @@
+.server-container {
+  display: flex;
+  height: 100%;
+
+  .servers-filter {
+    position: fixed;
+    z-index: 1000;
+    bottom: 4rem;
+    right: 1rem;
+  }
+
+  .host {
+    .mat-card {
+      background: red;
+    }
+  }
+}
+
+.server-list-viewport {
+  height: calc(100vh - 120px);
+  width: 100vw;
+}
+
+@keyframes card-animation {
+  from {
+    background-color: rgb(235, 235, 235);
+  }
+
+  to {
+    background-color: #fff;
+  }
+}
+
+.f-label {
+  font-size: 13px;
+}
+
+.f-field {
+  font-size: 12px;
+}
+
+.s-txt {
+  white-space: nowrap;
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
